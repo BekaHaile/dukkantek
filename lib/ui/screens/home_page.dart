@@ -1,5 +1,4 @@
 import 'package:dukkantek_test/ui/controllers/home_controller.dart';
-import 'package:dukkantek_test/ui/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -10,25 +9,20 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Logged in'),
+          actions: [
+            TextButton(onPressed: () => Get.back(), child: const Text('Logout'))
+          ],
+        ),
         body: Center(
           widthFactor: MediaQuery.of(context).size.width,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('Welcome ${controller.userName}'),
-              const SizedBox(height: 20),
-                    Padding(
-                          padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
-                          child: RoundedButton(
-                            text: 'Logout',
-                            onPressed: () {
-                              Get.back();
-                            },
-                          ),
-                        ),
             ],
           ),
-          
         ),
       ),
     );

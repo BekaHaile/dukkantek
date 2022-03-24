@@ -1,6 +1,8 @@
 import 'package:dukkantek_test/core/adapters/repository_adapter.dart';
 import 'package:dukkantek_test/shared/routes/app_pages.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import 'home_controller.dart';
 
@@ -12,6 +14,11 @@ class LoginController extends GetxController {
   String password = '';
 
   HomeController homeController = Get.find();
+
+  //Sign in with google data
+  final googleSignIn = GoogleSignIn();
+  GoogleSignInAccount ? _user;
+  GoogleSignInAccount get user => _user!;
 
   login() {
     final loginPayload = {"user_name": userName, "password": password};
@@ -29,5 +36,24 @@ class LoginController extends GetxController {
         print("$err");
       },
     );
+  }
+
+  signInGoogle() async{
+    final googleUser = await googleSignIn.signIn();
+    if(googleUser == null) return;
+
+    _user = googleUser;
+
+    final googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
+    homeController.userName = user.name;
+    Get.toNamed(Routes.homePage);
   }
 }
