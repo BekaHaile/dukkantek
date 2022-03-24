@@ -53,7 +53,7 @@ class LoginController extends GetxController {
 
     await FirebaseAuth.instance.signInWithCredential(credential);
 
-    homeController.userName = user.name;
+    homeController.userName = user.displayName;
     Get.toNamed(Routes.homePage);
   }
 }
