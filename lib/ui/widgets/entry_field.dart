@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class EntryField extends StatelessWidget{
   final String title;
   final bool isPassword;
+  final Function(String value)? onChanged;
 
-  const EntryField(this.title, this.isPassword, {Key? key}) : super(key: key);
+  const EntryField(this.title, this.isPassword, this.onChanged, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,8 @@ class EntryField extends StatelessWidget{
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   fillColor: Color(0xfff3f3f4),
-                  filled: true))
+                  filled: true),
+                  onChanged: onChanged,)
         ],
       ),
     );

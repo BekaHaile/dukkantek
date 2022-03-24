@@ -1,22 +1,30 @@
-import 'package:dukkantek_test/widgets/entry_field.dart';
+
+import 'package:dukkantek_test/ui/controllers/login_controller.dart';
+import 'package:dukkantek_test/ui/widgets/entry_field.dart';
+import 'package:dukkantek_test/ui/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class LoginPage extends StatelessWidget{
+class LoginPage extends GetView<LoginController>{
   const LoginPage({Key? key}) : super(key: key);
-
 
     @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     final height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         body: SizedBox(
       height: height,
-      child: Stack(
+      child: Column(
         children: <Widget>[
-          Container(
+          Expanded(
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
+            child: Form(
+                  key: _formKey,child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -25,14 +33,26 @@ class LoginPage extends StatelessWidget{
                   const SizedBox(height: 50),
                   _usernamePasswordWidget(),
                   const SizedBox(height: 20),
-                  _submitButton(context),
+                  Padding(
+                        padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
+                        child: RoundedButton(
+                          text: 'continue'.tr,
+                          onPressed: () {
+                            final form = _formKey.currentState;
+                            if (form?.validate() ?? false) {
+                              form?.save();
+                              controller.login();
+                            }
+                          },
+                        ),
+                      ),
                   _divider(),
                   _googleButton(),
                   SizedBox(height: height * .055),
                 ],
               ),
-            ),
-          ),
+              ),
+            ),),),
         ],
       ),
     ));
@@ -40,9 +60,9 @@ class LoginPage extends StatelessWidget{
 
 Widget _usernamePasswordWidget() {
     return Column(
-      children: const <Widget>[
-        EntryField("Username", false),
-        EntryField("Password", true),
+      children: <Widget>[
+        EntryField("Username", false, (value) => controller.userName = value),
+        EntryField("Password", true, (value) => controller.password = value),
       ]
     );
   }
@@ -70,30 +90,31 @@ Widget _usernamePasswordWidget() {
     );
   }
 
-  Widget _submitButton(context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.symmetric(vertical: 15),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.shade200,
-                offset: const Offset(2, 4),
-                blurRadius: 5,
-                spreadRadius: 2)
-          ],
-          gradient: const LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xfffbb448), Color(0xfff7892b)])),
-      child: const Text(
-        'Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),
-      ),
-    );
-  }
+  // Widget _submitButton(context) {
+                      
+    //                    Container(
+    //   width: MediaQuery.of(context).size.width,
+    //   padding: const EdgeInsets.symmetric(vertical: 15),
+    //   alignment: Alignment.center,
+    //   decoration: BoxDecoration(
+    //       borderRadius: const BorderRadius.all(Radius.circular(5)),
+    //       boxShadow: <BoxShadow>[
+    //         BoxShadow(
+    //             color: Colors.grey.shade200,
+    //             offset: const Offset(2, 4),
+    //             blurRadius: 5,
+    //             spreadRadius: 2)
+    //       ],
+    //       gradient: const LinearGradient(
+    //           begin: Alignment.centerLeft,
+    //           end: Alignment.centerRight,
+    //           colors: [Color(0xfffbb448), Color(0xfff7892b)])),
+    //   child: const Text(
+    //     'Login',
+    //     style: TextStyle(fontSize: 20, color: Colors.white),
+    //   ),
+    // );
+  // }
 
   Widget _divider() {
     return Container(
