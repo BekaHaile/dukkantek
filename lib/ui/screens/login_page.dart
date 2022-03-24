@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends GetView<LoginController>{
-  const LoginPage({Key? key}) : super(key: key);
+   LoginPage({Key? key}) : super(key: key);
 
+
+    final _formKey = GlobalKey<FormState>();
     @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
@@ -36,7 +37,7 @@ class LoginPage extends GetView<LoginController>{
                   Padding(
                         padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0),
                         child: RoundedButton(
-                          text: 'continue'.tr,
+                          text: 'Login',
                           onPressed: () {
                             final form = _formKey.currentState;
                             if (form?.validate() ?? false) {
