@@ -12,7 +12,7 @@ class HomePage extends GetView<HomeController> {
         appBar: AppBar(
           title: const Text('Logged in'),
           actions: [
-            TextButton(onPressed: () => Get.back(), child: const Text('Logout'))
+            TextButton(onPressed: () => controller.logout(), child: const Text('Logout'))
           ],
         ),
         body: Center(

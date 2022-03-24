@@ -56,4 +56,11 @@ class LoginController extends GetxController {
     homeController.userName = user.displayName;
     Get.toNamed(Routes.homePage);
   }
+
+   
+  logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
+    Get.back();
+  }
 }
